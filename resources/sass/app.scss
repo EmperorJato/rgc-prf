@@ -1,0 +1,48 @@
+// Fonts
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:700&display=swap');
+
+
+// Variables
+@import 'variables';
+
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~bootstrap-fileinput/scss/fileinput.scss';
+
+@import 'paper-dashboard';
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+// Loader
+@import 'loader';
+
+
+.card-img-top{
+   object-fit: contain;
+   width: 100%!important;
+   height: 200px!important;
+}
+
+.numberCircle {
+   display:inline-block;
+   position: fixed;
+   line-height:0px;
+   border-radius:50%;
+   border:2px solid red;
+   margin-left:10px;
+   background-color: red;
+}
+
+.numberCircle span {
+   display:inline-block;
+   padding-top:50%;
+   padding-bottom:50%;
+   margin-left:10px;
+   margin-right:10px;
+}
+
