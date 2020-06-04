@@ -71,6 +71,17 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="{{ Route::currentRouteNamed('admin-users') ? 'active' : '' }}">
+                            <a href="{{route('admin-users')}}">
+                                <i class="fas fa-user"></i>
+                                <?php $countUser =  App\User::where('user_type', null)->count();?>
+                                <p>Accounts
+                                    @if($countUser != 0)
+                                    <span class="numberCircle"><span style="color: white;">{{$countUser}}</span></span>
+                                    @endif
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

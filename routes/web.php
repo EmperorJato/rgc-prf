@@ -164,6 +164,10 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::post('admin/reply', 'MessageController@adminReply')->name('admin-reply');
     Route::get('admin/inbox', 'MessageController@adminInbox')->name('admin-inbox');
     Route::put('message/status', 'MessageController@msgAdmin')->name('admin-msg');
+
+    Route::get('admin/accounts', 'Admin\AdminDashboardController@accounts')->name('admin-users');
+    Route::put('admin/approve-user', 'Admin\AdminDashboardController@approveUser')->name('admin.approveUser');
+
 });
 
 

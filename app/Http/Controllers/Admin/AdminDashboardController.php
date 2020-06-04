@@ -90,4 +90,16 @@ class AdminDashboardController extends Controller
         ]);
     }
 
+    public function accounts(){
+        return view('admin.admin-role', ['users' => User::where('user_type', null)->paginate(10)]);
+    }
+
+    public function approveUser(Request $request){
+        $approveID = $request->get('approveID');
+
+        return User::where('id', $approveID)->update([
+            'user_type' => 'user'
+        ]);
+    }
+
 }
