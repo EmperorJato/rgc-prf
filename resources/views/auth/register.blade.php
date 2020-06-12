@@ -97,5 +97,14 @@
     });
 </script>
 @endif
+@if(session()->has('error'))
+<script type="text/javascript">
+    $(function(){
+        swal("Error", "Please contact the administrator to access your account. Thank You", "success").then(function(){
+            window.location.href = "{{url('/')}}";
+        });
+    });
+</script>
+@endif
 @endsection
 

@@ -168,6 +168,8 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::get('admin/accounts', 'Admin\AdminDashboardController@accounts')->name('admin-users');
     Route::put('admin/approve-user', 'Admin\AdminDashboardController@approveUser')->name('admin.approveUser');
 
+    Route::post('admin/create', 'Admin\AdminDashboardController@registerUser')->name('admin.create');
+
 });
 
 

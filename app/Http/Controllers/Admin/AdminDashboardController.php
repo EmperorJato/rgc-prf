@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\User;
 use App\Message;
+use Illuminate\Support\Facades\Hash;
 
 class AdminDashboardController extends Controller
 {
@@ -99,6 +100,30 @@ class AdminDashboardController extends Controller
 
         return User::where('id', $approveID)->update([
             'user_type' => 'user'
+        ]);
+    }
+
+    public function registerUser(Request $request){
+        $rules  = array(
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:12', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        );
+
+        $error = Validator::make($request->all(), $rules);
+
+        if($error->fails()){
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'user_type' => $request->user_type,
+            
         ]);
     }
 

@@ -6,7 +6,10 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"></h4>
+            <div class="float-right">
+                <button class="btn btn-success" id="addUser">Add User</button>
+            </div>
+            <h4 class="card-title">Accounts</h4>
         </div>
         <div class="card-body">
             <div style="overflow-x:auto;">
@@ -25,7 +28,7 @@
                             @foreach($users as $key => $row)
                             <tr>
                                 <td style="display: none;">{{$row->id}}</td>
-                                <td>{{++$key}}</td>
+                                <td>{{($users->currentpage()-1) * $users->perpage() + ++$key}}</td>
                                 <td>{{Carbon\Carbon::parse($row->created_at)->format('m-d-Y')}}</td>
                                 <td>{{$row->name}}</td>
                                 <td>
@@ -43,32 +46,94 @@
     </div>
 </div>
 
-<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Remarks</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="status" onsubmit="return false;">
                 <div class="modal-body">
-                    
-                    {{csrf_field()}}
-                    {{method_field('PUT')}}
-                    <input type="hidden" id="status_id" name="status_id" value="">
-                    <div class="form-group">
-                        <label for="reason">Reference</label>
-                        <textarea type="text" class="form-control" id="checks_remarks" name="checks_remarks"></textarea>
-                        <small id="e_reason" class="form-text text-muted"></small>
-                    </div>
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Register</a>
+                          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Share Link</a>
+                        </div>
+                      </nav>
+                      <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <span id="form_result"></span>
+                            <form method="POST" onsubmit="return false;" id="registerUser">
+                                {{csrf_field()}}
+                                <div class="form-group row mt-3">
+                                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+                                    
+                                    <div class="col-md-6">
+                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                    
+                                    <div class="col-md-6">
+                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                                    
+                                    <div class="col-md-6">
+                                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required>                           
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                    
+                                    <div class="col-md-6">
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmed Password') }}</label>
+                                    
+                                    <div class="col-md-6">
+                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
+                                    <div class="col-md-6">
+                                        <select class="custom-select" name="user_type" id="user_type">
+                                            <option value="user" selected>User</option>
+                                            <option value="admin">Admin</option>
+                                          </select>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-user-plus"> </i>
+                                        {{ __('Register') }}
+                                    </button>
+                                </div>
+                        </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <div class="form-group row mt-3">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" value="https://prf-rgc.ribshack.info/register">
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                   
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
-            </form>
         </div>
     </div>
 </div>
@@ -82,6 +147,40 @@
 <script type="text/javascript">
     
     $('.approveUser').popover({trigger : "hover focus"});
+
+    $('#addUser').on('click', function(){
+        $('#showModal').modal('show');
+        
+        $('#registerUser').on('submit', function(){
+            $.ajax({
+                url: "{{ route('admin.create') }}",
+                type: "POST",
+                data: $('#registerUser').serialize(),
+                success: function(res){
+                    console.log(res)
+                    let html = '';
+                    if(res.errors){
+                        html = '<div class="alert alert-danger">';
+                        for(let count = 0; count < res.errors.length; count++){
+                            html += '<p>' + res.errors[count] + '</p>';
+                        }
+                        html += '</div>';
+                    } else {
+
+                        swal("Success", "Registered Successfully", "success").then(function(){
+                            location.reload();
+                        });
+                    }
+
+                    $('#form_result').html(html);
+                },
+                error: function(err){
+                    console.log(err)
+                },
+            })
+        })
+        
+    });
     
     
     $('.approveUser').on('click', function(){
